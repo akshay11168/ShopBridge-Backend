@@ -14,9 +14,13 @@ from bson.objectid import ObjectId
 @api_view(["POST"])
 @parser_classes((FormParser, MultiPartParser))
 def create_product(request):
+    ''' 
+        This api is used to Create product and save in Db
+    '''
     try:
         json_to_insert = {
             "productName" : request.data.get('productName'),
+            "productId" : request.data.get('productId'),
             "productType" : request.data.get('productType'),
             "description" : request.data.get('description'),
             "stock" : int(request.data.get('stock')),
@@ -33,6 +37,9 @@ def create_product(request):
 @api_view(["GET"])
 def get_all_products(request):
     try:
+        '''
+            this function is used to return all the products in the database
+        '''
         response = models.get_all_products()
 
         return Response(response,status=status.HTTP_200_OK)
@@ -40,10 +47,13 @@ def get_all_products(request):
         return Response(error,status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["DELETE"])
+@api_view(["POST"])
 @parser_classes((JSONParser,FormParser, MultiPartParser))
 def delete_products(request):
     try:
+        '''
+            this function is used to delete product from db based on _id
+        '''
         id = request.data.get("_id")
         result = models.delete_product(id)
         return Response(result,status=status.HTTP_200_OK)
@@ -54,10 +64,14 @@ def delete_products(request):
 @api_view(["PUT"])
 @parser_classes((FormParser, MultiPartParser))
 def update_product(request):
+    '''
+        this function is used to update product information in db based on _id
+    '''
     try:
         id_to_update = request.data.get("_id")
         json_to_insert = {
             "productName" : request.data.get('productName'),
+            "productId" : request.data.get('productId'),
             "productType" : request.data.get('productType'),
             "description" : request.data.get('description'),
             # "images" : request.data.get('images'),
@@ -76,6 +90,9 @@ def update_product(request):
 @api_view(["POST"])
 @parser_classes((JSONParser, FormParser, MultiPartParser))
 def get_product(request):
+    '''
+        this function is used to get product based on _id
+    '''
     try:
         id = request.data.get("_id")
         result = models.get_product(id)
@@ -89,6 +106,9 @@ def get_product(request):
 @api_view(["POST"])
 @parser_classes((JSONParser, FormParser, MultiPartParser))
 def get_product_by_name(request):
+    '''
+        this function is used to get product based on productName
+    '''
     try:
         productName = request.data.get("productName")
         result = models.get_product_by_name(productName)
