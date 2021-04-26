@@ -21,7 +21,6 @@ from products.views import create_product
 
 
 urlpatterns = [
-    # url(r'',create_product),
     url(r'^products/', include('products.urls')),
     url(r'^admin/', admin.site.urls),
 ]
